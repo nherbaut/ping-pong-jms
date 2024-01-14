@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JMS Ping Pong</title>
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Custom CSS for full height and flex layout */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        .container {
+            height: 30%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        #myButton, #myTextField {
+            width: 45%;
+
+        }
+    </style>
+</head>
+<body><h1>JMS Ping Pong</h1>
+<img src="assets/img/img.png" style="width:95%">
+<div class="container mt-5">
+    <!-- Text field -->
+    <button id="myButton" class="btn btn-primary">Check Round trip</button>
+    <input type="text" id="myTextField" class="form-control mb-2">
+
+    <!-- Button -->
+
+</div>
+
+<!-- Bootstrap 5.3 Bundle JS (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('myButton').addEventListener('click', function() {
+            fetch('/ping/',
+                {
+                    method: 'POST',
+                }
+            )
+                .then(response => {
+                    if(response.ok) {
+                        return response.text();
+                    }
+                    throw new Error('Network response was not ok.');
+                })
+                .then(data => {
+                    document.getElementById('myTextField').value = data;
+                    document.getElementById('myTextField').style.backgroundColor = 'lightgreen';
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    document.getElementById('myTextField').style.backgroundColor = 'red';
+                });
+        });
+    });
+</script>
+</body>
+</html>
